@@ -104,49 +104,23 @@ void TwoWire::setClock(uint32_t frequency)
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
 {
-  #ifdef WIRE1
-    if (isize > 0) {
-    // send internal address; this mode allows sending a repeated start to access
-    // some devices' internal registers. This function is executed by the hardware
-    // TWI module on other processors (for example Due's TWI_IADR and TWI_MMR registers)
-
-    beginTransmission(address);
-
-    // the maximum size of internal address is 3 bytes
-    if (isize > 3){
-      isize = 3;
-    }
-
-    // write internal register address - most significant byte first
-    while (isize-- > 0)
-      write((uint8_t)(iaddress >> (isize*8)));
-    endTransmission(false);
-    }
-
-    // clamp to buffer length
-    if(quantity > TWI1_BUFFER_SIZE){
-      quantity = TWI1_BUFFER_SIZE;
-    }
-    // perform blocking read into buffer
-    uint8_t read = twi_readFrom1(address, rxBuffer, quantity, sendStop);
-    // set rx buffer iterator vars
-    rxBufferIndex = 0;
-    rxBufferLength = read;
-
-    return read;
-  #else
     if(quantity > BUFFER_LENGTH){
       quantity = BUFFER_LENGTH;
     }
-    // perform blocking read into buffer
-    uint8_t read = twi_readFrom(address, rxBuffer, quantity, sendStop);
+    #ifdef WIRE1
+      // perform blocking read into buffer
+      uint8_t read = twi_readFrom1(address, rxBuffer, quantity, sendStop);
+    #else
+      uint8_t read = twi_readFrom(address, rxBuffer, quantity, sendStop);
+    #endif  
     // set rx buffer iterator vars
     rxBufferIndex = 0;
     rxBufferLength = read;
 
     return read;
-  #endif  
+  
   // clamp to buffer length
+
 
 }
 
