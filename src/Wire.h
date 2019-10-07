@@ -31,7 +31,7 @@
 // WIRE_HAS_END means Wire has end()
 #define WIRE_HAS_END 1
 
-class TwoWire1 : public Stream
+class TwoWire : public Stream
 {
   private:
     static uint8_t rxBuffer[];
@@ -49,7 +49,7 @@ class TwoWire1 : public Stream
     static void onRequestService(void);
     static void onReceiveService(uint8_t*, int);
   public:
-    TwoWire1();
+    TwoWire();
     void begin();
     void begin(uint8_t);
     void begin(int);
@@ -80,7 +80,7 @@ class TwoWire1 : public Stream
     using Print::write;
 };
 
-extern TwoWire1 Wire1;
+extern TwoWire Wire1;
 
 #endif
 
