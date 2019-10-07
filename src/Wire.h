@@ -80,7 +80,7 @@ class TwoWire : public Stream
     using Print::write;
 };
 
-extern TwoWire Wire1;
+extern TwoWire Wire;
 
 #endif
 

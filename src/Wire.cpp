@@ -77,7 +77,7 @@ void TwoWire::begin(int address)
 
 void TwoWire::end(void)
 {
-  twi_disable();
+  twi_disable1();
 }
 
 void TwoWire::setClock(uint32_t frequency)
