@@ -19,15 +19,19 @@
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
 */
 
-#ifndef TwoWire_h
-#define TwoWire_h
+#ifndef TwoWire1_h
+#define TwoWire1_h
+
+
 #include <Arduino.h>
 #include <inttypes.h>
 #include "Stream.h"
 
-#define BUFFER_LENGTH 32
 
-class TwoWire : public Stream
+// WIRE_HAS_END means Wire has end()
+#define WIRE_HAS_END 1
+
+class TwoWire1 : public Stream
 {
   private:
     static uint8_t rxBuffer[];
@@ -45,10 +49,11 @@ class TwoWire : public Stream
     static void onRequestService(void);
     static void onReceiveService(uint8_t*, int);
   public:
-    TwoWire();
+    TwoWire1();
     void begin();
     void begin(uint8_t);
     void begin(int);
+    void end();
     void setClock(uint32_t);
     void beginTransmission(uint8_t);
     void beginTransmission(int);
@@ -56,6 +61,7 @@ class TwoWire : public Stream
     uint8_t endTransmission(uint8_t);
     uint8_t requestFrom(uint8_t, uint8_t);
     uint8_t requestFrom(uint8_t, uint8_t, uint8_t);
+    uint8_t requestFrom(uint8_t, uint8_t, uint32_t, uint8_t, uint8_t);
     uint8_t requestFrom(int, int);
     uint8_t requestFrom(int, int, int);
     virtual size_t write(uint8_t);
@@ -74,7 +80,7 @@ class TwoWire : public Stream
     using Print::write;
 };
 
-extern TwoWire Wire;
+extern TwoWire1 Wire1;
 
 #endif
 
